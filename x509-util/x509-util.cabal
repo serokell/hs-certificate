@@ -32,6 +32,26 @@ Executable           x509-util
                    , memory
                    , cryptonite
 
+
+Executable           x509-reproduce
+  Default-Language:  Haskell2010
+  Main-Is:           Reproduce.hs
+  hs-source-dirs:    src
+  Buildable:         True
+  Build-depends:     base >= 3 && < 5
+                   , bytestring
+                   , x509 >= 1.7.1
+                   , x509-store
+                   , x509-system
+                   , x509-validation >= 1.6.3
+                   , asn1-types >= 0.3
+                   , asn1-encoding
+                   , pem
+                   , directory
+                   , hourglass
+                   , memory
+                   , cryptonite
+
 source-repository head
   type:     git
   location: git://github.com/vincenthz/hs-certificate
