@@ -1,3 +1,5 @@
+{-# LANGUAGE NumericUnderscores #-}
+
 import Control.Monad
 
 import Control.Concurrent
@@ -8,5 +10,8 @@ main :: IO ()
 main = do
   let run = forever getSystemCertificateStore
 
-  replicateM_ 2 $ forkIO run
-  run
+  threadIds <- replicateM 3 $ forkIO run
+
+  threadDelay 3_000_000
+  mapM_ killThread threadIds
+  threadDelay 0_100_000

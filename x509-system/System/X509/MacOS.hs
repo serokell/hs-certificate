@@ -5,7 +5,6 @@ module System.X509.MacOS
     ( getSystemCertificateStore
     ) where
 
-import Control.Applicative
 import qualified Data.ByteString.Lazy as LBS
 import Data.Either
 import Data.PEM (PEM (..), pemParseLBS)
@@ -29,8 +28,15 @@ listInKeyChains keyChains = do
         let eTargets = rights . map (decodeSignedCertificate . pemContent) . filter ((=="CERTIFICATE") . pemName)
                     <$> ePems
         waitForProcess ph >>= \case
-            ExitFailure code -> error $ "Failed with code " <> show code  -- TODO: handle this properly
-            _                -> pure ()
+            ExitFailure (-2) ->
+                -- This case means that the application is shutting down,
+                -- 'find-certificate' thread has been killed first but
+                -- our thread is yet waiting for exception.
+                pure ()
+            ExitFailure code ->
+                error $ "find-certificate process failed with code " <> show code
+            _ ->
+                pure ()
         either error pure eTargets
 
 getSystemCertificateStore :: IO CertificateStore
