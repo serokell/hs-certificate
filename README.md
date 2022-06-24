@@ -1,3 +1,9 @@
+Why this fork exists?
+=====================
+
+This Serokell fork exists for the following purposes:
+* Keep https://github.com/haskell-tls/hs-certificate/pull/128 until it is merged or closed.
+
 certificate handling for haskell
 ================================
 
